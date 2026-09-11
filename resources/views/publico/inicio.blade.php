@@ -19,7 +19,9 @@
         content="{{ $configuracion?->descripcion ?? 'Barbería profesional, cortes modernos y atención personalizada.' }}"
     >
 
-    <title>{{ $configuracion?->nombre ?? 'BARBER' }}</title>
+    <title>
+        {{ $configuracion?->nombre ?? 'BARBER' }}
+    </title>
 
     @if($configuracion?->logo)
         <link
@@ -36,10 +38,12 @@
         'resources/js/landing.js'
     ])
 
-    {{-- =====================================================
-         AJUSTES RESPONSIVOS DEL INICIO / HERO
-    ====================================================== --}}
     <style>
+
+        /* =====================================================
+           CONFIGURACIÓN GENERAL
+        ====================================================== */
+
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 95px;
@@ -57,101 +61,144 @@
             scroll-margin-top: 95px;
         }
 
+
         /* =====================================================
-           HERO
+           HERO - COMPUTADORA
         ====================================================== */
 
         .hero {
             position: relative;
+
             width: 100%;
 
             /*
-             * Evita que el Hero termine antes de que
-             * aparezcan completamente los botones.
+             * La portada ocupa exactamente toda
+             * la pantalla visible.
              */
-            min-height: calc(100svh - 95px) !important;
-            height: auto !important;
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
+
+            height: 100vh !important;
+            height: 100dvh !important;
+
+            box-sizing: border-box;
 
             display: flex !important;
             align-items: center !important;
 
-            padding-top: clamp(80px, 9vh, 125px) !important;
-            padding-bottom: clamp(70px, 10vh, 120px) !important;
+            /*
+             * Espacio para navbar + contenido.
+             */
+            padding-top: 100px !important;
+            padding-bottom: 42px !important;
 
             overflow: hidden;
 
-            background-position: center center;
-            background-size: cover;
-            background-repeat: no-repeat;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
         }
+
+
+        /* =====================================================
+           OSCURECIMIENTO DE PORTADA
+        ====================================================== */
 
         .hero::after {
             content: "";
+
             position: absolute;
             inset: 0;
+
             z-index: 0;
+
             pointer-events: none;
 
             background:
                 linear-gradient(
                     180deg,
-                    rgba(0, 0, 0, .04) 0%,
-                    rgba(0, 0, 0, .08) 55%,
-                    rgba(0, 0, 0, .40) 100%
+                    rgba(0, 0, 0, .03) 0%,
+                    rgba(0, 0, 0, .08) 48%,
+                    rgba(0, 0, 0, .48) 100%
                 );
         }
+
 
         .hero-noise {
             position: absolute;
             inset: 0;
+
             z-index: 1;
+
             pointer-events: none;
         }
 
+
+        /* =====================================================
+           CONTENIDO DEL HERO
+        ====================================================== */
+
         .hero .hero-content {
             position: relative !important;
+
             z-index: 3 !important;
 
             width: 100%;
+            height: 100%;
+
             min-height: 0 !important;
 
             display: flex;
             flex-direction: column;
+
             justify-content: center;
 
             padding-top: 0 !important;
             padding-bottom: 0 !important;
         }
 
+
         /* =====================================================
-           TEXTO DEL HERO
+           TEXTO SUPERIOR
         ====================================================== */
 
         .hero-eyebrow {
             position: relative;
+
             z-index: 3;
 
-            margin-bottom: clamp(18px, 2.2vh, 28px);
+            margin-bottom: clamp(
+                14px,
+                2vh,
+                22px
+            ) !important;
         }
+
+
+        /* =====================================================
+           TÍTULO PRINCIPAL
+        ====================================================== */
 
         .hero-title {
             position: relative;
+
             z-index: 3;
 
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
 
             /*
-             * Sigue siendo grande, pero ahora toma también
-             * como referencia la altura de pantalla.
+             * Se adapta tanto al ancho como
+             * a la altura de la pantalla.
              */
             font-size: clamp(
-                5rem,
-                min(10.5vw, 17vh),
-                10rem
+                4.8rem,
+                min(8.2vw, 13.5vh),
+                8.5rem
             ) !important;
 
-            line-height: .79 !important;
+            line-height: .78 !important;
+
             letter-spacing: -.055em;
 
             margin: 0 !important;
@@ -159,24 +206,44 @@
             overflow: visible !important;
         }
 
+
         .hero-title span {
             display: block;
+
             width: fit-content;
+
             max-width: 100%;
         }
 
+
+        /* =====================================================
+           DESCRIPCIÓN
+        ====================================================== */
+
         .hero-description {
             position: relative;
+
             z-index: 3;
 
-            width: min(100%, 650px);
+            width: min(100%, 620px);
 
-            margin-top: clamp(28px, 4vh, 42px) !important;
+            margin-top: clamp(
+                18px,
+                2.8vh,
+                28px
+            ) !important;
+
             margin-bottom: 0 !important;
 
-            font-size: clamp(1rem, 1.3vw, 1.2rem);
-            line-height: 1.6;
+            font-size: clamp(
+                1rem,
+                1.1vw,
+                1.16rem
+            );
+
+            line-height: 1.5;
         }
+
 
         /* =====================================================
            BOTONES DEL HERO
@@ -184,34 +251,43 @@
 
         .hero-actions {
             position: relative !important;
+
             z-index: 20 !important;
 
             width: 100%;
 
             display: flex !important;
+
             align-items: center !important;
+
             flex-wrap: wrap !important;
 
             gap: 18px !important;
 
-            margin-top: clamp(30px, 5vh, 50px) !important;
+            margin-top: clamp(
+                22px,
+                3.8vh,
+                34px
+            ) !important;
+
             margin-bottom: 0 !important;
 
             transform: none !important;
         }
 
+
         .hero-actions .btn-premium,
         .hero-actions .btn-ghost {
             position: relative !important;
+
             z-index: 21 !important;
 
             min-height: 54px;
 
             display: inline-flex !important;
+
             align-items: center !important;
             justify-content: center !important;
-
-            gap: 25px;
 
             padding: 0 30px !important;
 
@@ -225,62 +301,147 @@
             transform: none !important;
         }
 
+
         .hero-actions .btn-premium {
-            min-width: 245px;
+            min-width: 285px;
+
+            gap: 35px;
         }
+
 
         .hero-actions .btn-ghost {
-            min-width: 155px;
+            min-width: 185px;
         }
 
-        .hero-actions .btn-premium span {
+
+        .hero-actions .btn-premium span:last-child {
             transition: transform .25s ease;
         }
 
-        .hero-actions .btn-premium:hover span {
+
+        .hero-actions .btn-premium:hover span:last-child {
             transform: translateX(5px);
         }
 
-        /*
-         * Importante:
-         * evita que la marquesina se monte encima de los botones.
-         */
+
+        /* =====================================================
+           MARQUEE
+        ====================================================== */
+
         .marquee-section {
             position: relative !important;
+
             z-index: 5 !important;
 
+            /*
+             * Comienza después de la pantalla completa
+             * del Hero.
+             */
             margin-top: 0 !important;
         }
 
+
         /* =====================================================
-           TABLETS
+           LAPTOPS CON MENOR ALTURA
         ====================================================== */
 
-        @media (max-width: 1199.98px) {
-            .hero {
-                min-height: calc(100svh - 85px) !important;
+        @media (min-width: 1200px) and (max-height: 820px) {
 
-                padding-top: 100px !important;
-                padding-bottom: 80px !important;
+            .hero {
+                min-height: 100vh !important;
+                min-height: 100dvh !important;
+
+                height: 100vh !important;
+                height: 100dvh !important;
+
+                padding-top: 88px !important;
+                padding-bottom: 30px !important;
             }
+
 
             .hero-title {
                 font-size: clamp(
-                    4.8rem,
-                    min(10vw, 15vh),
-                    8rem
+                    4.4rem,
+                    min(7.6vw, 12.5vh),
+                    7.2rem
                 ) !important;
+
+                line-height: .77 !important;
             }
+
+
+            .hero-eyebrow {
+                margin-bottom: 12px !important;
+            }
+
+
+            .hero-description {
+                margin-top: 16px !important;
+            }
+
+
+            .hero-actions {
+                margin-top: 20px !important;
+            }
+
+
+            .hero-actions .btn-premium,
+            .hero-actions .btn-ghost {
+                min-height: 50px;
+            }
+
         }
 
+
         /* =====================================================
-           CELULAR / TABLET VERTICAL
+           LAPTOPS / TABLETS HORIZONTALES
+        ====================================================== */
+
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+
+            .hero {
+                min-height: 100vh !important;
+                min-height: 100dvh !important;
+
+                height: 100vh !important;
+                height: 100dvh !important;
+
+                padding-top: 95px !important;
+                padding-bottom: 35px !important;
+            }
+
+
+            .hero-title {
+                font-size: clamp(
+                    4.2rem,
+                    min(8.5vw, 12.5vh),
+                    7rem
+                ) !important;
+            }
+
+
+            .hero-description {
+                margin-top: 20px !important;
+            }
+
+
+            .hero-actions {
+                margin-top: 24px !important;
+            }
+
+        }
+
+
+        /* =====================================================
+           TABLET / CELULAR
         ====================================================== */
 
         @media (max-width: 991.98px) {
+
             html {
                 scroll-padding-top: 76px;
             }
+
 
             #inicio,
             #servicios,
@@ -290,224 +451,287 @@
                 scroll-margin-top: 76px;
             }
 
+
             .hero {
+                /*
+                 * En móvil no usamos altura rígida
+                 * para evitar cortar contenido.
+                 */
                 min-height: 100svh !important;
+                min-height: 100dvh !important;
+
+                height: auto !important;
 
                 align-items: center !important;
 
                 padding-top: 105px !important;
-                padding-bottom: 65px !important;
+                padding-bottom: 60px !important;
 
                 background-position: center center !important;
             }
 
+
             .hero .hero-content {
+                height: auto;
+
                 justify-content: center;
             }
 
+
             .hero-eyebrow {
-                margin-bottom: 18px;
+                margin-bottom: 17px !important;
             }
+
 
             .hero-title {
                 width: 100%;
 
                 font-size: clamp(
-                    3.8rem,
-                    min(14vw, 13vh),
-                    6.8rem
+                    3.7rem,
+                    min(14vw, 12.5vh),
+                    6.6rem
                 ) !important;
 
                 line-height: .81 !important;
+
                 letter-spacing: -.05em;
             }
+
 
             .hero-description {
                 width: min(100%, 540px);
 
-                margin-top: 27px !important;
+                margin-top: 25px !important;
 
                 font-size: 1rem;
             }
 
+
             .hero-actions {
-                margin-top: 32px !important;
+                margin-top: 30px !important;
+
                 gap: 12px !important;
             }
 
+
             .hero-actions .btn-premium {
-                min-width: 210px;
+                min-width: 215px;
             }
+
 
             .hero-actions .btn-ghost {
                 min-width: 145px;
             }
+
         }
+
 
         /* =====================================================
            CELULAR VERTICAL
         ====================================================== */
 
         @media (max-width: 575.98px) {
+
             .hero {
                 min-height: 100svh !important;
+                min-height: 100dvh !important;
 
-                padding-top: 95px !important;
-                padding-bottom: 50px !important;
+                height: auto !important;
+
+                padding-top: 92px !important;
+                padding-bottom: 48px !important;
 
                 background-position: 55% center !important;
             }
 
+
             .hero .hero-content {
                 width: 100%;
+
+                height: auto;
             }
+
 
             .hero-eyebrow {
-                margin-bottom: 15px;
+                margin-bottom: 14px !important;
 
                 font-size: .70rem;
+
                 letter-spacing: .14em;
             }
+
 
             .hero-title {
                 width: 100%;
 
-                /*
-                 * Grande en celular, pero sin salirse
-                 * horizontalmente.
-                 */
                 font-size: clamp(
-                    3.35rem,
-                    15.2vw,
-                    5.1rem
+                    3.2rem,
+                    15vw,
+                    5rem
                 ) !important;
 
                 line-height: .83 !important;
+
                 letter-spacing: -.052em;
             }
 
+
             .hero-title span {
                 width: 100%;
+
                 max-width: 100%;
             }
 
+
             .hero-description {
                 width: 100%;
+
                 max-width: 410px;
 
-                margin-top: 24px !important;
+                margin-top: 22px !important;
 
-                font-size: .96rem;
-                line-height: 1.55;
+                font-size: .94rem;
+
+                line-height: 1.5;
             }
 
+
             /*
-             * Los dos botones permanecen visibles
-             * y acomodados al ancho de celular.
+             * Mantiene ambos botones juntos
+             * en una sola fila.
              */
             .hero-actions {
                 width: 100%;
 
                 display: grid !important;
-                grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) !important;
+
+                grid-template-columns:
+                    minmax(0, 1.45fr)
+                    minmax(0, 1fr) !important;
 
                 gap: 10px !important;
 
-                margin-top: 28px !important;
+                margin-top: 26px !important;
             }
+
 
             .hero-actions .btn-premium,
             .hero-actions .btn-ghost {
                 width: 100% !important;
+
                 min-width: 0 !important;
-                min-height: 52px;
+                min-height: 50px;
 
                 padding: 0 14px !important;
 
-                font-size: .91rem;
-
-                gap: 13px;
+                font-size: .90rem;
             }
+
 
             .hero-actions .btn-premium {
                 justify-content: space-between !important;
+
+                gap: 10px;
             }
+
 
             .hero-actions .btn-ghost {
                 justify-content: center !important;
             }
+
         }
+
 
         /* =====================================================
            CELULARES PEQUEÑOS
         ====================================================== */
 
         @media (max-width: 390px) {
+
             .hero {
-                padding-top: 90px !important;
-                padding-bottom: 44px !important;
+                padding-top: 88px !important;
+                padding-bottom: 42px !important;
             }
+
 
             .hero-title {
                 font-size: clamp(
-                    3rem,
-                    14.8vw,
-                    4rem
+                    2.9rem,
+                    14.7vw,
+                    3.9rem
                 ) !important;
 
                 line-height: .84 !important;
             }
 
+
             .hero-description {
-                margin-top: 20px !important;
-                font-size: .90rem;
+                margin-top: 18px !important;
+
+                font-size: .88rem;
             }
 
+
             .hero-actions {
-                margin-top: 24px !important;
+                margin-top: 22px !important;
             }
+
 
             .hero-actions .btn-premium,
             .hero-actions .btn-ghost {
-                min-height: 49px;
-                padding: 0 11px !important;
-                font-size: .84rem;
+                min-height: 47px;
+
+                padding: 0 10px !important;
+
+                font-size: .82rem;
             }
+
         }
 
+
         /* =====================================================
-           PANTALLAS CON POCA ALTURA
+           CELULARES CON MUY POCA ALTURA
         ====================================================== */
 
-        @media (min-width: 992px) and (max-height: 760px) {
-            .hero {
-                min-height: calc(100svh - 85px) !important;
+        @media (max-width: 575.98px) and (max-height: 700px) {
 
-                padding-top: 65px !important;
-                padding-bottom: 60px !important;
+            .hero {
+                padding-top: 82px !important;
+                padding-bottom: 35px !important;
             }
+
 
             .hero-title {
                 font-size: clamp(
-                    4.8rem,
-                    min(9vw, 15vh),
-                    8rem
+                    2.8rem,
+                    13vw,
+                    3.8rem
                 ) !important;
             }
 
-            .hero-description {
-                margin-top: 24px !important;
+
+            .hero-eyebrow {
+                margin-bottom: 10px !important;
             }
 
-            .hero-actions {
-                margin-top: 28px !important;
+
+            .hero-description {
+                margin-top: 16px !important;
             }
+
+
+            .hero-actions {
+                margin-top: 18px !important;
+            }
+
         }
+
     </style>
 
 </head>
 
 <body>
+
 
 {{-- =========================================================
      NAVBAR
@@ -517,28 +741,41 @@
     class="landing-navbar"
     id="navbar"
 >
+
     <div class="container-fluid landing-container">
 
+
         {{-- LOGO --}}
+
         <a
             href="#inicio"
             class="landing-logo"
         >
+
             @if($configuracion?->logo)
+
                 <img
                     src="{{ asset('storage/' . $configuracion->logo) }}"
                     alt="{{ $configuracion->nombre ?? 'Barber' }}"
                     class="navbar-logo-image"
                 >
+
             @endif
 
+
             <span class="navbar-brand-text">
+
                 {{ strtoupper($configuracion?->nombre ?? 'BARBER') }}
+
                 <strong>.</strong>
+
             </span>
+
         </a>
 
+
         {{-- BOTÓN MÓVIL --}}
+
         <button
             class="menu-toggle"
             id="menuToggle"
@@ -550,55 +787,84 @@
             ☰
         </button>
 
+
         {{-- MENÚ --}}
+
         <div
             class="landing-menu"
             id="landingMenu"
         >
+
             <a
                 href="#inicio"
                 class="nav-link-premium active"
                 data-section="inicio"
             >
-                <span class="nav-text">Inicio</span>
+
+                <span class="nav-text">
+                    Inicio
+                </span>
+
             </a>
+
 
             <a
                 href="#servicios"
                 class="nav-link-premium"
                 data-section="servicios"
             >
-                <span class="nav-text">Cortes</span>
+
+                <span class="nav-text">
+                    Cortes
+                </span>
+
             </a>
+
 
             <a
                 href="#experiencia"
                 class="nav-link-premium"
                 data-section="experiencia"
             >
-                <span class="nav-text">Nosotros</span>
+
+                <span class="nav-text">
+                    Nosotros
+                </span>
+
             </a>
+
 
             <a
                 href="#cita"
                 class="nav-link-premium"
                 data-section="cita"
             >
-                <span class="nav-text">Citas</span>
+
+                <span class="nav-text">
+                    Citas
+                </span>
+
             </a>
+
 
             <a
                 href="#contacto"
                 class="nav-link-premium"
                 data-section="contacto"
             >
-                <span class="nav-text">Contacto</span>
+
+                <span class="nav-text">
+                    Contacto
+                </span>
+
             </a>
+
 
             <a
                 href="#cita"
                 class="nav-reservar"
             >
+
                 <span class="nav-reservar-text">
                     Reservar
                 </span>
@@ -606,10 +872,13 @@
                 <span class="nav-reservar-arrow">
                     ↗
                 </span>
+
             </a>
+
         </div>
 
     </div>
+
 </nav>
 
 
@@ -622,6 +891,7 @@
     class="hero"
 
     @if($configuracion?->imagen_portada)
+
         style="
             background-image:
             linear-gradient(
@@ -632,17 +902,24 @@
             ),
             url('{{ asset('storage/' . $configuracion->imagen_portada) }}');
         "
+
     @endif
 >
 
     <div class="hero-noise"></div>
 
+
     <div class="container-fluid landing-container hero-content">
 
+
         <div class="hero-eyebrow">
+
             {{ $configuracion?->nombre ?? 'Barbería' }}
+
             · Estilo · Precisión
+
         </div>
+
 
         <h1 class="hero-title">
 
@@ -660,29 +937,42 @@
 
         </h1>
 
+
         <p class="hero-description">
+
             {{ $configuracion?->eslogan ?? 'Cortes modernos, precisión y una experiencia diseñada para ti.' }}
+
         </p>
 
+
         <div class="hero-actions">
+
 
             <a
                 href="#cita"
                 class="btn-premium"
             >
-                <span>Agendar cita</span>
+
+                <span>
+                    Agendar cita
+                </span>
 
                 <span aria-hidden="true">
                     →
                 </span>
+
             </a>
+
 
             <a
                 href="#servicios"
                 class="btn-ghost"
             >
+
                 Ver cortes
+
             </a>
+
 
         </div>
 
@@ -731,7 +1021,9 @@
 
     <div class="container-fluid landing-container">
 
+
         <div class="section-header">
+
 
             <div>
 
@@ -745,9 +1037,11 @@
 
             </div>
 
+
             <div>
 
                 <h2>
+
                     CORTES QUE
 
                     <br>
@@ -755,11 +1049,15 @@
                     <span>
                         DEJAN MARCA.
                     </span>
+
                 </h2>
 
+
                 <p>
+
                     Explora nuestros estilos y encuentra el corte
                     que mejor representa tu personalidad.
+
                 </p>
 
             </div>
@@ -769,11 +1067,15 @@
 
         <div class="services-grid">
 
+
             @forelse($servicios as $servicio)
+
 
                 <article class="service-card">
 
+
                     <div class="service-image">
+
 
                         @if($servicio->imagen)
 
@@ -791,15 +1093,21 @@
 
                         @endif
 
+
                         <div class="service-overlay"></div>
 
+
                         <div class="service-price">
+
                             ${{ number_format($servicio->precio, 2) }}
+
                         </div>
 
                     </div>
 
+
                     <div class="service-content">
+
 
                         <div>
 
@@ -813,6 +1121,7 @@
 
                         </div>
 
+
                         <a
                             href="#cita"
                             class="service-arrow"
@@ -821,17 +1130,24 @@
                             →
                         </a>
 
+
                     </div>
 
                 </article>
 
+
             @empty
 
+
                 <div class="empty-services">
+
                     Próximamente nuevos estilos.
+
                 </div>
 
+
             @endforelse
+
 
         </div>
 
@@ -851,17 +1167,26 @@
 
     <div class="container-fluid landing-container experience-grid">
 
+
         <div class="experience-number">
+
             02
+
         </div>
+
 
         <div class="experience-content">
 
+
             <span class="section-eyebrow">
+
                 La experiencia
+
             </span>
 
+
             <h2>
+
                 MÁS QUE
 
                 <br>
@@ -869,15 +1194,22 @@
                 <span>
                     UN CORTE.
                 </span>
+
             </h2>
 
+
             <p>
+
                 {{ $configuracion?->descripcion ?? 'Cada detalle cuenta. Desde el momento en que llegas hasta el acabado final, buscamos ofrecer una experiencia cómoda, moderna y personalizada.' }}
+
             </p>
+
 
             <div class="experience-line"></div>
 
+
         </div>
+
 
         <div class="experience-quote">
 
@@ -888,6 +1220,7 @@
             Tu estilo habla antes que tú.
 
         </div>
+
 
     </div>
 
@@ -905,20 +1238,27 @@
 
     <div class="container-fluid landing-container">
 
+
         <div class="booking-grid">
 
+
             {{-- INFORMACIÓN --}}
+
             <div class="booking-info">
+
 
                 <span class="section-number">
                     03
                 </span>
 
+
                 <span class="section-eyebrow">
                     Reserva
                 </span>
 
+
                 <h2>
+
                     ¿LISTO PARA
 
                     <br>
@@ -930,19 +1270,26 @@
                     <span>
                         CORTE?
                     </span>
+
                 </h2>
 
+
                 <p>
+
                     Selecciona la fecha y horario que prefieras.
                     Tu solicitud quedará pendiente hasta ser confirmada
                     por la barbería.
+
                 </p>
+
 
             </div>
 
 
             {{-- FORMULARIO --}}
+
             <div class="booking-form-wrapper">
+
 
                 @if(session('success'))
 
@@ -958,6 +1305,7 @@
 
                 @endif
 
+
                 <form
                     method="POST"
                     action="{{ route('citas.publica.store') }}"
@@ -966,12 +1314,18 @@
 
                     @csrf
 
+
                     {{-- NOMBRE --}}
+
                     <div class="form-premium">
 
+
                         <label for="nombre_cliente">
+
                             Nombre
+
                         </label>
+
 
                         <input
                             type="text"
@@ -984,21 +1338,32 @@
                             required
                         >
 
+
                         @error('nombre_cliente')
+
                         <span class="form-error">
+
                                 {{ $message }}
+
                             </span>
+
                         @enderror
+
 
                     </div>
 
 
                     {{-- TELÉFONO --}}
+
                     <div class="form-premium">
 
+
                         <label for="telefono">
+
                             Teléfono
+
                         </label>
+
 
                         <input
                             type="tel"
@@ -1012,21 +1377,32 @@
                             required
                         >
 
+
                         @error('telefono')
+
                         <span class="form-error">
+
                                 {{ $message }}
+
                             </span>
+
                         @enderror
+
 
                     </div>
 
 
                     {{-- FECHA --}}
+
                     <div class="form-premium">
 
+
                         <label for="fecha">
+
                             Fecha
+
                         </label>
+
 
                         <input
                             type="date"
@@ -1037,21 +1413,32 @@
                             required
                         >
 
+
                         @error('fecha')
+
                         <span class="form-error">
+
                                 {{ $message }}
+
                             </span>
+
                         @enderror
+
 
                     </div>
 
 
                     {{-- HORARIOS --}}
+
                     <div class="form-premium">
 
+
                         <label>
+
                             Horario disponible
+
                         </label>
+
 
                         <input
                             type="hidden"
@@ -1060,6 +1447,7 @@
                             value="{{ old('hora') }}"
                         >
 
+
                         <div
                             id="horariosDisponibles"
                             class="horarios-grid"
@@ -1067,16 +1455,24 @@
                         >
 
                             <span class="horarios-mensaje">
+
                                 Selecciona primero una fecha.
+
                             </span>
 
                         </div>
 
+
                         @error('hora')
+
                         <span class="form-error">
+
                                 {{ $message }}
+
                             </span>
+
                         @enderror
+
 
                     </div>
 
@@ -1086,18 +1482,24 @@
                         id="botonReservar"
                         class="btn-premium booking-button"
                     >
+
                         Solicitar cita
 
                         <span>
                             →
                         </span>
+
                     </button>
+
 
                 </form>
 
+
             </div>
 
+
         </div>
+
 
     </div>
 
@@ -1115,16 +1517,22 @@
 
     <div class="container-fluid landing-container">
 
+
         <div class="contact-grid">
 
+
             {{-- ENCABEZADO --}}
+
             <div>
+
 
                 <span class="section-number">
                     04
                 </span>
 
+
                 <h2>
+
                     VEN A
 
                     <br>
@@ -1132,110 +1540,157 @@
                     <span>
                         CONOCERNOS.
                     </span>
+
                 </h2>
+
 
             </div>
 
 
             {{-- DATOS DE CONTACTO --}}
+
             <div class="contact-details">
+
 
                 @if($configuracion?->direccion)
 
+
                     <div class="contact-item">
+
 
                         <span>
                             Dirección
                         </span>
 
+
                         <strong>
+
                             {{ $configuracion->direccion }}
+
                         </strong>
 
+
                     </div>
+
 
                 @endif
 
 
                 @if($configuracion?->telefono)
 
+
                     <div class="contact-item">
+
 
                         <span>
                             Teléfono
                         </span>
 
+
                         <strong>
+
 
                             <a
                                 href="tel:{{ preg_replace('/[^0-9+]/', '', $configuracion->telefono) }}"
                             >
+
                                 {{ $configuracion->telefono }}
+
                             </a>
+
 
                         </strong>
 
+
                     </div>
+
 
                 @endif
 
 
                 @if($configuracion?->whatsapp)
 
+
                     <div class="contact-item">
+
 
                         <span>
                             WhatsApp
                         </span>
 
+
                         <strong>
+
 
                             <a
                                 href="https://wa.me/{{ preg_replace('/\D/', '', $configuracion->whatsapp) }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
+
                                 {{ $configuracion->whatsapp }}
+
                             </a>
+
 
                         </strong>
 
+
                     </div>
+
 
                 @endif
 
 
                 @if($configuracion?->correo)
 
+
                     <div class="contact-item">
+
 
                         <span>
                             Correo
                         </span>
 
+
                         <strong>
 
-                            <a href="mailto:{{ $configuracion->correo }}">
+
+                            <a
+                                href="mailto:{{ $configuracion->correo }}"
+                            >
+
                                 {{ $configuracion->correo }}
+
                             </a>
+
 
                         </strong>
 
+
                     </div>
 
+
                 @endif
+
 
             </div>
 
 
             {{-- HORARIOS --}}
+
             <div class="schedule">
 
+
                 <span class="schedule-title">
+
                     Horarios
+
                 </span>
 
+
                 @php
+
                     $dias = [
                         1 => 'Lunes',
                         2 => 'Martes',
@@ -1245,23 +1700,34 @@
                         6 => 'Sábado',
                         7 => 'Domingo',
                     ];
+
                 @endphp
+
 
                 @forelse($horarios as $horario)
 
+
                     <div class="schedule-row">
 
-                        <span>
-                            {{ $dias[$horario->dia_semana] ?? '' }}
-                        </span>
 
                         <span>
+
+                            {{ $dias[$horario->dia_semana] ?? '' }}
+
+                        </span>
+
+
+                        <span>
+
 
                             @if($horario->cerrado)
 
+
                                 Cerrado
 
+
                             @else
+
 
                                 {{ \Carbon\Carbon::parse($horario->hora_apertura)->format('h:i A') }}
 
@@ -1269,13 +1735,18 @@
 
                                 {{ \Carbon\Carbon::parse($horario->hora_cierre)->format('h:i A') }}
 
+
                             @endif
+
 
                         </span>
 
+
                     </div>
 
+
                 @empty
+
 
                     <div class="schedule-row">
 
@@ -1285,11 +1756,15 @@
 
                     </div>
 
+
                 @endforelse
+
 
             </div>
 
+
         </div>
+
 
     </div>
 
@@ -1304,12 +1779,17 @@
 
     <div class="container-fluid landing-container">
 
+
         <div class="footer-main">
 
+
             {{-- MARCA --}}
+
             <div class="footer-brand">
 
+
                 @if($configuracion?->logo)
+
 
                     <img
                         src="{{ asset('storage/' . $configuracion->logo) }}"
@@ -1317,51 +1797,73 @@
                         class="footer-logo-image"
                     >
 
+
                 @endif
 
+
                 {{ strtoupper($configuracion?->nombre ?? 'BARBER') }}
+
 
                 <span>
                     .
                 </span>
 
+
             </div>
 
 
             {{-- REDES SOCIALES --}}
+
             <div class="footer-social">
 
+
                 @forelse($redes as $red)
+
 
                     <a
                         href="{{ $red->url }}"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
+
                         {{ $red->nombre }}
+
                     </a>
 
+
                 @empty
+
                 @endforelse
 
+
             </div>
+
 
         </div>
 
 
         <div class="footer-bottom">
 
+
             <span>
+
                 © {{ date('Y') }}
+
                 {{ $configuracion?->nombre ?? 'Barber' }}.
+
                 Todos los derechos reservados.
+
             </span>
 
+
         </div>
+
 
     </div>
 
 </footer>
 
+
 </body>
+
 </html>
