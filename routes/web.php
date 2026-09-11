@@ -1,13 +1,38 @@
 <?php
 
-use App\Http\Controllers\Administrador\DashboardController;
-use App\Http\Controllers\Administrador\ServicioController;
+use App\Http\Controllers\Administrador\{
+    CitaController,
+    DashboardController,
+    HorarioController,
+    ServicioController
+};
+
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Publico\LandingController;
+
+use App\Http\Controllers\Publico\{
+    CitaController as CitaPublicaController,
+    LandingController
+};
+
 use Illuminate\Support\Facades\Route;
+
+/* =========================
+   RUTAS PÚBLICAS
+========================= */
 
 Route::get('/', [LandingController::class, 'index'])
     ->name('inicio');
+
+Route::post('/agendar-cita', [CitaPublicaController::class, 'store'])
+    ->name('citas.publica.store');
+
+Route::get('/horarios-disponibles', [CitaPublicaController::class, 'horariosDisponibles'])
+    ->name('citas.horarios');
+
+
+/* =========================
+   AUTENTICACIÓN
+========================= */
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])
@@ -21,6 +46,11 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
+
+/* =========================
+   ADMINISTRADOR
+========================= */
+
 Route::middleware('auth')
     ->prefix('admin')
     ->name('administrador.')
@@ -30,4 +60,12 @@ Route::middleware('auth')
             ->name('dashboard');
 
         Route::resource('servicios', ServicioController::class);
+
+        Route::patch('citas/{cita}/estado', [CitaController::class, 'cambiarEstado'])
+            ->name('citas.estado');
+
+        Route::resource('citas', CitaController::class);
+
+        Route::resource('horarios', HorarioController::class)
+            ->except(['show']);
     });
