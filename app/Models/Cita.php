@@ -14,7 +14,6 @@ class Cita extends Model
         'estado_cita_id',
         'nombre_cliente',
         'telefono',
-        'correo',
         'fecha',
         'hora',
     ];

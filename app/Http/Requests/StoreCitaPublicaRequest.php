@@ -139,9 +139,6 @@ class StoreCitaPublicaRequest extends FormRequest
             'telefono.required' => 'Ingresa tu número de teléfono.',
             'telefono.max' => 'El teléfono no puede exceder los 20 caracteres.',
 
-            'correo.email' => 'Ingresa un correo electrónico válido.',
-            'correo.max' => 'El correo no puede exceder los 150 caracteres.',
-
             'fecha.required' => 'Selecciona una fecha.',
             'fecha.date' => 'La fecha seleccionada no es válida.',
             'fecha.after_or_equal' => 'No puedes seleccionar una fecha anterior al día actual.',

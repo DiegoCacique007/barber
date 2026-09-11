@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Cita, Servicio};
+use App\Models\{Cita, RedSocial, Servicio};
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -12,6 +12,7 @@ class DashboardController extends Controller
     {
         $totalServicios = Servicio::count();
         $totalCitas = Cita::count();
+        $redesActivas = RedSocial::where('activo', true)->count();
 
         $citasPendientes = Cita::whereHas(
             'estadoCita',
@@ -31,20 +32,14 @@ class DashboardController extends Controller
         $citasHoy = Cita::whereDate('fecha', today())
             ->whereHas(
                 'estadoCita',
-                fn ($q) => $q->whereIn('nombre', [
-                    'Pendiente',
-                    'Confirmada'
-                ])
+                fn ($q) => $q->whereIn('nombre', ['Pendiente', 'Confirmada'])
             )
             ->count();
 
         $proximaCita = Cita::with('estadoCita')
             ->whereHas(
                 'estadoCita',
-                fn ($q) => $q->whereIn('nombre', [
-                    'Pendiente',
-                    'Confirmada'
-                ])
+                fn ($q) => $q->whereIn('nombre', ['Pendiente', 'Confirmada'])
             )
             ->where(function ($q) {
                 $q->whereDate('fecha', '>', today())
@@ -60,6 +55,7 @@ class DashboardController extends Controller
         return view('administrador.dashboard', compact(
             'totalServicios',
             'totalCitas',
+            'redesActivas',
             'citasPendientes',
             'citasConfirmadas',
             'citasCompletadas',

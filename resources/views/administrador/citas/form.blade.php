@@ -1,141 +1,69 @@
-<div class="row g-4">
+@php
+    $editando = isset($cita);
+@endphp
 
-    <div class="col-12 col-lg-7">
+<div class="cita-form-grid">
 
-        <div class="mb-4">
-            <label for="nombre_cliente" class="form-label text-light">
-                Nombre del cliente
-            </label>
+    <div class="form-section">
 
-            <input
-                type="text"
-                name="nombre_cliente"
-                id="nombre_cliente"
-                class="form-control bg-dark text-light border-secondary @error('nombre_cliente') is-invalid @enderror"
-                value="{{ old('nombre_cliente', $cita->nombre_cliente ?? '') }}"
-                maxlength="120"
-                placeholder="Ej. Juan Pérez"
-                required
-            >
+        <div class="form-section-header">
 
-            @error('nombre_cliente')
-            <div class="invalid-feedback">
-                {{ $message }}
+            <div class="section-icon">
+                ♙
             </div>
-            @enderror
+
+            <div>
+                <h5>Información del cliente</h5>
+                <p>Datos de contacto de la persona que realizará la cita.</p>
+            </div>
+
         </div>
 
-        <div class="row g-3">
+        <div class="form-fields">
 
-            <div class="col-12 col-md-6">
-                <div class="mb-4">
+            <div class="form-group-custom">
 
-                    <label for="telefono" class="form-label text-light">
+                <label for="nombre_cliente">
+                    Nombre del cliente
+                </label>
+
+                <input type="text"
+                       id="nombre_cliente"
+                       name="nombre_cliente"
+                       value="{{ old('nombre_cliente',$cita->nombre_cliente ?? '') }}"
+                       class="form-control @error('nombre_cliente') is-invalid @enderror"
+                       placeholder="Nombre completo"
+                       required>
+
+                @error('nombre_cliente')
+                <div class="form-error">{{ $message }}</div>
+                @enderror
+
+            </div>
+
+
+            <div class="form-row-custom">
+
+                <div class="form-group-custom">
+
+                    <label for="telefono">
                         Teléfono
                     </label>
 
-                    <input
-                        type="text"
-                        name="telefono"
-                        id="telefono"
-                        class="form-control bg-dark text-light border-secondary @error('telefono') is-invalid @enderror"
-                        value="{{ old('telefono', $cita->telefono ?? '') }}"
-                        maxlength="20"
-                        placeholder="722 123 4567"
-                        required
-                    >
+                    <input type="text"
+                           id="telefono"
+                           name="telefono"
+                           value="{{ old('telefono',$cita->telefono ?? '') }}"
+                           class="form-control @error('telefono') is-invalid @enderror"
+                           placeholder="Ej. 729 123 4567"
+                           required>
 
                     @error('telefono')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
+                    <div class="form-error">{{ $message }}</div>
                     @enderror
 
                 </div>
-            </div>
 
-
-            <div class="col-12 col-md-6">
-                <div class="mb-4">
-
-                    <label for="correo" class="form-label text-light">
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        type="email"
-                        name="correo"
-                        id="correo"
-                        class="form-control bg-dark text-light border-secondary @error('correo') is-invalid @enderror"
-                        value="{{ old('correo', $cita->correo ?? '') }}"
-                        maxlength="150"
-                        placeholder="cliente@correo.com"
-                    >
-
-                    @error('correo')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="row g-3">
-
-            <div class="col-12 col-md-6">
-                <div class="mb-4">
-
-                    <label for="fecha" class="form-label text-light">
-                        Fecha
-                    </label>
-
-                    <input
-                        type="date"
-                        name="fecha"
-                        id="fecha"
-                        class="form-control bg-dark text-light border-secondary @error('fecha') is-invalid @enderror"
-                        value="{{ old('fecha', isset($cita) ? $cita->fecha->format('Y-m-d') : '') }}"
-                        min="{{ now()->format('Y-m-d') }}"
-                        required
-                    >
-
-                    @error('fecha')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-
-                </div>
-            </div>
-
-
-            <div class="col-12 col-md-6">
-                <div class="mb-4">
-
-                    <label for="hora" class="form-label text-light">
-                        Hora
-                    </label>
-
-                    <input
-                        type="time"
-                        name="hora"
-                        id="hora"
-                        class="form-control bg-dark text-light border-secondary @error('hora') is-invalid @enderror"
-                        value="{{ old('hora', isset($cita) ? substr($cita->hora, 0, 5) : '') }}"
-                        required
-                    >
-
-                    @error('hora')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-
-                </div>
             </div>
 
         </div>
@@ -143,40 +71,78 @@
     </div>
 
 
-    <div class="col-12 col-lg-5">
+    <div class="form-section">
 
-        <div
-            class="p-4 rounded-4"
-            style="
-                background:#101010;
-                border:1px solid rgba(255,255,255,.08);
-            "
-        >
+        <div class="form-section-header">
 
-            <div class="mb-4">
+            <div class="section-icon">
+                ◷
+            </div>
 
-                <span
-                    class="d-inline-block mb-3"
-                    style="
-                        color:#c9a24d;
-                        font-size:12px;
-                        text-transform:uppercase;
-                        letter-spacing:1.4px;
-                    "
-                >
-                    Estado de la cita
-                </span>
+            <div>
+                <h5>Programación</h5>
+                <p>Selecciona la fecha, hora y estado de la reservación.</p>
+            </div>
 
-                <label for="estado_cita_id" class="form-label text-light">
-                    Estado actual
+        </div>
+
+
+        <div class="form-fields">
+
+            <div class="form-row-custom">
+
+                <div class="form-group-custom">
+
+                    <label for="fecha">
+                        Fecha
+                    </label>
+
+                    <input type="date"
+                           id="fecha"
+                           name="fecha"
+                           value="{{ old('fecha',isset($cita) ? $cita->fecha->format('Y-m-d') : '') }}"
+                           class="form-control @error('fecha') is-invalid @enderror"
+                           required>
+
+                    @error('fecha')
+                    <div class="form-error">{{ $message }}</div>
+                    @enderror
+
+                </div>
+
+
+                <div class="form-group-custom">
+
+                    <label for="hora">
+                        Hora
+                    </label>
+
+                    <input type="time"
+                           id="hora"
+                           name="hora"
+                           value="{{ old('hora',isset($cita) ? \Carbon\Carbon::parse($cita->hora)->format('H:i') : '') }}"
+                           class="form-control @error('hora') is-invalid @enderror"
+                           required>
+
+                    @error('hora')
+                    <div class="form-error">{{ $message }}</div>
+                    @enderror
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group-custom">
+
+                <label for="estado_cita_id">
+                    Estado
                 </label>
 
-                <select
-                    name="estado_cita_id"
-                    id="estado_cita_id"
-                    class="form-select bg-dark text-light border-secondary @error('estado_cita_id') is-invalid @enderror"
-                    required
-                >
+                <select id="estado_cita_id"
+                        name="estado_cita_id"
+                        class="form-select @error('estado_cita_id') is-invalid @enderror"
+                        required>
 
                     <option value="">
                         Selecciona un estado
@@ -184,15 +150,8 @@
 
                     @foreach($estados as $estado)
 
-                        <option
-                            value="{{ $estado->id }}"
-                            @selected(
-                                old(
-                                    'estado_cita_id',
-                                    $cita->estado_cita_id ?? ''
-                                ) == $estado->id
-                            )
-                        >
+                        <option value="{{ $estado->id }}"
+                            {{ (string) old('estado_cita_id',$cita->estado_cita_id ?? '') === (string) $estado->id ? 'selected' : '' }}>
                             {{ $estado->nombre }}
                         </option>
 
@@ -201,50 +160,28 @@
                 </select>
 
                 @error('estado_cita_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                <div class="form-error">{{ $message }}</div>
                 @enderror
-
-            </div>
-
-
-            <div
-                class="p-3 rounded-3"
-                style="
-                    background:rgba(201,162,77,.06);
-                    border:1px solid rgba(201,162,77,.15);
-                "
-            >
-
-                <div
-                    class="mb-2"
-                    style="
-                        color:#c9a24d;
-                        font-size:13px;
-                        font-weight:600;
-                    "
-                >
-                    Información
-                </div>
-
-                <p
-                    class="mb-0"
-                    style="
-                        color:#858585;
-                        font-size:12px;
-                        line-height:1.7;
-                    "
-                >
-                    Las citas pendientes y confirmadas ocupan el horario
-                    seleccionado. Las citas canceladas o rechazadas permiten
-                    que ese horario vuelva a estar disponible.
-                </p>
 
             </div>
 
         </div>
 
     </div>
+
+</div>
+
+
+<div class="cita-form-actions">
+
+    <a href="{{ route('administrador.citas.index') }}"
+       class="btn-form-secondary">
+        Cancelar
+    </a>
+
+    <button type="submit"
+            class="btn-form-primary">
+        {{ $editando ? 'Guardar cambios' : 'Guardar cita' }}
+    </button>
 
 </div>

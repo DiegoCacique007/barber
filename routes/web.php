@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Administrador\{
     CitaController,
+    ConfiguracionBarberiaController,
     DashboardController,
     HorarioController,
+    RedSocialController,
     ServicioController
 };
 
@@ -35,6 +37,7 @@ Route::get('/horarios-disponibles', [CitaPublicaController::class, 'horariosDisp
 ========================= */
 
 Route::middleware('guest')->group(function () {
+
     Route::get('/login', [LoginController::class, 'showLoginForm'])
         ->name('login');
 
@@ -56,16 +59,37 @@ Route::middleware('auth')
     ->name('administrador.')
     ->group(function () {
 
+        /* DASHBOARD */
         Route::get('/', [DashboardController::class, 'index'])
             ->name('dashboard');
 
+
+        /* SERVICIOS */
         Route::resource('servicios', ServicioController::class);
 
+
+        /* CITAS */
         Route::patch('citas/{cita}/estado', [CitaController::class, 'cambiarEstado'])
             ->name('citas.estado');
 
         Route::resource('citas', CitaController::class);
 
+
+        /* HORARIOS */
         Route::resource('horarios', HorarioController::class)
             ->except(['show']);
+
+
+        /* REDES SOCIALES */
+        Route::resource('redes', RedSocialController::class)
+            ->parameters(['redes' => 'redSocial'])
+            ->except(['show']);
+
+
+        /* CONFIGURACIÓN */
+        Route::get('configuracion', [ConfiguracionBarberiaController::class, 'edit'])
+            ->name('configuracion.edit');
+
+        Route::put('configuracion', [ConfiguracionBarberiaController::class, 'update'])
+            ->name('configuracion.update');
     });

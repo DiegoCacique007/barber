@@ -4,160 +4,169 @@
 
 @push('styles')
     <style>
-        .citas-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}
-        .citas-header h1{margin:0;font-size:30px;font-weight:700}
-        .citas-header p{margin:6px 0 0;color:#777;font-size:13px}
+        .citas-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:25px}
 
-        .filters-card{padding:20px;margin-bottom:22px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:#131313}
-        .filters-card .form-control,.filters-card .form-select{background:#0e0e0e!important;border-color:rgba(255,255,255,.08)!important;color:#ddd!important}
-        .filters-card .form-control::placeholder{color:#555}
+        .btn-cita-primary{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 18px;border:1px solid #d5ad55;border-radius:100px;background:#d5ad55;color:#111;font-size:12px;font-weight:700;text-decoration:none;transition:.22s ease}
+        .btn-cita-primary:hover{border-color:#e8c873;background:#e8c873;color:#111;transform:translateY(-2px)}
 
-        .table-card{overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:#131313}
-        .citas-table{margin:0;color:#ddd;vertical-align:middle}
-        .citas-table thead th{padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.08);background:#101010;color:#666;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
-        .citas-table tbody td{padding:16px 18px;border-color:rgba(255,255,255,.05)}
-        .citas-table tbody tr{transition:.2s}
-        .citas-table tbody tr:hover{background:rgba(255,255,255,.018)}
+        .filters-card{margin-bottom:22px;padding:20px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:#1a1a1a}
+        .filters-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr auto;gap:15px}
 
-        .cliente-nombre{display:block;color:#eee;font-size:14px;font-weight:600}
-        .cliente-dato{display:block;margin-top:3px;color:#666;font-size:11px}
-        .fecha-principal{display:block;color:#d7d7d7;font-size:13px;font-weight:600}
-        .hora-cita{display:block;margin-top:3px;color:#777;font-size:11px}
+        .filter-control{width:100%;min-height:42px;padding:0 13px;border:1px solid rgba(255,255,255,.13);border-radius:9px;outline:none;background:#171717;color:#fff;font-size:12px;color-scheme:dark;transition:.2s}
+        .filter-control::placeholder{color:#8f8f8f}
+        .filter-control:focus{border-color:#d5ad55;background:#191919;box-shadow:0 0 0 .2rem rgba(213,173,85,.07)}
+        .filter-control option{background:#1a1a1a;color:#fff}
 
-        .estado-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid;border-radius:100px;font-size:10px;font-weight:600}
-        .estado-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-        .estado-pendiente{color:#e0b95d;background:rgba(224,185,93,.07);border-color:rgba(224,185,93,.18)}
-        .estado-confirmada{color:#74a8e8;background:rgba(116,168,232,.07);border-color:rgba(116,168,232,.18)}
-        .estado-completada{color:#79c999;background:rgba(121,201,153,.07);border-color:rgba(121,201,153,.18)}
-        .estado-cancelada{color:#9b9b9b;background:rgba(155,155,155,.06);border-color:rgba(155,155,155,.15)}
-        .estado-rechazada{color:#e47d86;background:rgba(228,125,134,.07);border-color:rgba(228,125,134,.18)}
+        .btn-filter{min-width:150px;min-height:42px;padding:0 22px;border:1px solid #d5ad55;border-radius:9px;background:#d5ad55;color:#111;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
+        .btn-filter:hover{border-color:#e8c873;background:#e8c873}
 
-        .acciones{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px}
-        .accion-btn{min-height:31px;display:inline-flex;align-items:center;justify-content:center;padding:0 11px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:transparent;color:#888;font-size:10px;transition:.2s}
-        .accion-btn:hover{color:#fff;background:rgba(255,255,255,.05)}
-        .accion-confirmar{color:#c9a24d;border-color:rgba(201,162,77,.22)}
-        .accion-confirmar:hover{background:rgba(201,162,77,.1);color:#e2c36e}
-        .accion-completar{color:#79c999;border-color:rgba(121,201,153,.2)}
-        .accion-completar:hover{background:rgba(121,201,153,.08);color:#9bdfb5}
-        .accion-peligro{color:#d77a82;border-color:rgba(215,122,130,.18)}
-        .accion-peligro:hover{background:rgba(215,122,130,.08);color:#ef9299}
+        .filter-clear-wrapper{display:flex;justify-content:flex-end;margin-top:12px}
+        .filter-clear{color:#aaa;font-size:11px;text-decoration:none;transition:.2s}
+        .filter-clear:hover{color:#ddb65a}
 
-        .empty-citas{padding:65px 20px;text-align:center;color:#666}
-        .empty-citas span{display:block;margin-bottom:10px;font-size:32px;color:#333}
+        .citas-card{overflow:hidden;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:#1a1a1a;box-shadow:0 15px 35px rgba(0,0,0,.12)}
 
-        .pagination-wrapper{padding:18px;border-top:1px solid rgba(255,255,255,.05)}
+        .citas-table{width:100%;margin:0;border-collapse:collapse;background:#1a1a1a!important}
+        .citas-table thead{background:#171717!important}
 
-        @media(max-width:768px){
+        .citas-table th{padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.10);background:#171717!important;color:#c5c5c5!important;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+        .citas-table td{padding:17px 18px;border-bottom:1px solid rgba(255,255,255,.07);background:#1a1a1a!important;color:#e5e5e5!important;font-size:12px;vertical-align:middle}
+
+        .citas-table tbody tr:hover td{background:#1d1d1d!important}
+        .citas-table tbody tr:last-child td{border-bottom:0}
+
+        .cliente-info strong,.contact-info strong,.fecha-info strong{display:block;color:#fff;font-size:12px;font-weight:600}
+        .cliente-info span,.contact-info span,.fecha-info span{display:block;margin-top:4px;color:#aaa;font-size:10px}
+
+        .estado-cita{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+        .estado-cita::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+        .estado-pendiente{border:1px solid rgba(221,182,90,.25);background:rgba(221,182,90,.10);color:#e4bd62}
+        .estado-confirmada{border:1px solid rgba(100,160,235,.25);background:rgba(100,160,235,.10);color:#8db9ee}
+        .estado-completada{border:1px solid rgba(95,205,145,.25);background:rgba(95,205,145,.10);color:#89d8ac}
+        .estado-cancelada{border:1px solid rgba(235,110,120,.25);background:rgba(220,70,80,.10);color:#ee9ca4}
+        .estado-rechazada{border:1px solid rgba(190,130,140,.25);background:rgba(190,130,140,.10);color:#d8a4ac}
+
+        .cita-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px}
+
+        .action-btn{min-height:33px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#202020;color:#c2c2c2;font-size:10px;font-weight:500;text-decoration:none;cursor:pointer;white-space:nowrap;transition:.2s}
+        .action-btn:hover{border-color:rgba(213,173,85,.28);background:rgba(213,173,85,.08);color:#ddb65a}
+
+        .action-success{border-color:rgba(95,205,145,.20);color:#89d8ac}
+        .action-success:hover{border-color:rgba(95,205,145,.35);background:rgba(95,205,145,.08);color:#9ae4bc}
+
+        .action-danger{border-color:rgba(235,110,120,.20);color:#efa0a7}
+        .action-danger:hover{border-color:rgba(235,110,120,.32);background:rgba(220,70,80,.09);color:#f3abb1}
+
+        .citas-empty-row td,.citas-empty-row:hover td{padding:0!important;border:0!important;background:#1a1a1a!important}
+
+        .citas-empty{min-height:230px;display:flex;align-items:center;justify-content:center;padding:35px;background:#1a1a1a;text-align:center}
+        .citas-empty-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:1px solid rgba(213,173,85,.18);border-radius:12px;background:rgba(213,173,85,.07);color:#ddb65a;font-size:21px}
+        .citas-empty h5{margin:0 0 7px;color:#fff;font-size:14px;font-weight:600}
+        .citas-empty p{margin:0;color:#aaa;font-size:11px}
+
+        .citas-pagination{padding:15px 20px;border-top:1px solid rgba(255,255,255,.07);background:#181818}
+
+        @media(max-width:1200px){
+            .filters-grid{grid-template-columns:1fr 1fr}
+            .btn-filter{width:100%}
+        }
+
+        @media(max-width:850px){
+            .citas-card{overflow-x:auto}
+            .citas-table{min-width:1050px}
+        }
+
+        @media(max-width:650px){
             .citas-header{align-items:flex-start;flex-direction:column}
-            .citas-header .btn{width:100%}
+            .btn-cita-primary{width:100%}
+            .filters-grid{grid-template-columns:1fr}
+            .btn-filter{min-width:100%}
         }
     </style>
 @endpush
-
 
 @section('content')
 
     <div class="citas-header">
 
-        <div>
+        <div class="page-header mb-0">
             <h1>Citas</h1>
             <p>Consulta y administra las reservaciones realizadas por los clientes.</p>
         </div>
 
         <a href="{{ route('administrador.citas.create') }}"
-           class="btn btn-warning rounded-pill px-4">
-            + Nueva cita
+           class="btn-cita-primary">
+            <span>＋</span>
+            Nueva cita
         </a>
 
     </div>
 
-
     <div class="filters-card">
 
         <form method="GET"
-              action="{{ route('administrador.citas.index') }}"
-              class="row g-3">
+              action="{{ route('administrador.citas.index') }}">
 
-            <div class="col-lg-4">
+            <div class="filters-grid">
 
-                <input
-                    type="text"
-                    name="buscar"
-                    value="{{ request('buscar') }}"
-                    class="form-control"
-                    placeholder="Buscar cliente, teléfono o correo..."
-                >
-
-            </div>
-
-
-            <div class="col-md-3">
+                <input type="text"
+                       name="buscar"
+                       value="{{ request('buscar') }}"
+                       class="filter-control"
+                       placeholder="Buscar cliente, teléfono...">
 
                 <select name="estado"
-                        class="form-select">
+                        class="filter-control">
 
-                    <option value="">
-                        Todos los estados
-                    </option>
+                    <option value="">Todos los estados</option>
 
                     @foreach($estados as $estado)
-
                         <option value="{{ $estado->id }}"
-                            @selected(request('estado') == $estado->id)>
-
+                            {{ request('estado') == $estado->id ? 'selected' : '' }}>
                             {{ $estado->nombre }}
-
                         </option>
-
                     @endforeach
 
                 </select>
 
-            </div>
+                <input type="date"
+                       name="fecha"
+                       value="{{ request('fecha') }}"
+                       class="filter-control">
 
-
-            <div class="col-md-3">
-
-                <input
-                    type="date"
-                    name="fecha"
-                    value="{{ request('fecha') }}"
-                    class="form-control"
-                >
-
-            </div>
-
-
-            <div class="col-lg-2 d-flex gap-2">
-
-                <button class="btn btn-warning flex-grow-1">
+                <button type="submit"
+                        class="btn-filter">
                     Filtrar
                 </button>
 
-                @if(request()->hasAny(['buscar', 'estado', 'fecha']))
+            </div>
+
+            @if(request()->filled('buscar') || request()->filled('estado') || request()->filled('fecha'))
+
+                <div class="filter-clear-wrapper">
 
                     <a href="{{ route('administrador.citas.index') }}"
-                       class="btn btn-outline-secondary">
-                        ×
+                       class="filter-clear">
+                        × Limpiar filtros
                     </a>
 
-                @endif
+                </div>
 
-            </div>
+            @endif
 
         </form>
 
     </div>
 
-
-    <div class="table-card">
+    <div class="citas-card">
 
         <div class="table-responsive">
 
-            <table class="table citas-table">
+            <table class="citas-table">
 
                 <thead>
-
                 <tr>
                     <th>Cliente</th>
                     <th>Contacto</th>
@@ -165,90 +174,54 @@
                     <th>Estado</th>
                     <th class="text-end">Acciones</th>
                 </tr>
-
                 </thead>
-
 
                 <tbody>
 
                 @forelse($citas as $cita)
 
                     @php
-                        $estado = $cita->estadoCita?->nombre ?? 'Sin estado';
+                        $estadoNombre = $cita->estadoCita?->nombre ?? 'Pendiente';
 
-                        $claseEstado = match($estado) {
-                            'Pendiente' => 'estado-pendiente',
+                        $estadoClase = match($estadoNombre) {
                             'Confirmada' => 'estado-confirmada',
                             'Completada' => 'estado-completada',
                             'Cancelada' => 'estado-cancelada',
                             'Rechazada' => 'estado-rechazada',
-                            default => 'estado-cancelada'
+                            default => 'estado-pendiente'
                         };
                     @endphp
-
 
                     <tr>
 
                         <td>
-
-                            <span class="cliente-nombre">
-                                {{ $cita->nombre_cliente }}
-                            </span>
-
-                            <span class="cliente-dato">
-                                #{{ str_pad($cita->id, 4, '0', STR_PAD_LEFT) }}
-                            </span>
-
+                            <div class="cliente-info">
+                                <strong>{{ $cita->nombre_cliente }}</strong>
+                                <span>#{{ str_pad($cita->id,4,'0',STR_PAD_LEFT) }}</span>
+                            </div>
                         </td>
 
+                        <td>
+                            <div class="fecha-info">
+                                <strong>{{ $cita->fecha->format('d/m/Y') }}</strong>
+                                <span>{{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="estado-cita {{ $estadoClase }}">
+                                {{ $estadoNombre }}
+                            </span>
+                        </td>
 
                         <td>
 
-                            <span class="cliente-nombre">
-                                {{ $cita->telefono }}
-                            </span>
+                            <div class="cita-actions">
 
-                            <span class="cliente-dato">
-                                {{ $cita->correo ?: 'Sin correo' }}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="fecha-principal">
-                                {{ $cita->fecha->translatedFormat('d M Y') }}
-                            </span>
-
-                            <span class="hora-cita">
-                                {{ \Carbon\Carbon::parse($cita->hora)->format('h:i A') }}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="estado-badge {{ $claseEstado }}">
-                                {{ $estado }}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <div class="acciones">
-
-
-                                {{-- PENDIENTE --}}
-
-                                @if($estado === 'Pendiente')
+                                @if($estadoNombre === 'Pendiente')
 
                                     <form method="POST"
-                                          action="{{ route('administrador.citas.estado', $cita) }}">
-
+                                          action="{{ route('administrador.citas.estado',$cita) }}">
                                         @csrf
                                         @method('PATCH')
 
@@ -256,17 +229,14 @@
                                                name="estado"
                                                value="Confirmada">
 
-                                        <button class="accion-btn accion-confirmar">
+                                        <button type="submit"
+                                                class="action-btn action-success">
                                             ✓ Confirmar
                                         </button>
-
                                     </form>
 
-
                                     <form method="POST"
-                                          action="{{ route('administrador.citas.estado', $cita) }}"
-                                          onsubmit="return confirm('¿Rechazar esta cita?')">
-
+                                          action="{{ route('administrador.citas.estado',$cita) }}">
                                         @csrf
                                         @method('PATCH')
 
@@ -274,22 +244,16 @@
                                                name="estado"
                                                value="Rechazada">
 
-                                        <button class="accion-btn accion-peligro">
+                                        <button type="submit"
+                                                class="action-btn action-danger">
                                             Rechazar
                                         </button>
-
                                     </form>
 
-                                @endif
-
-
-                                {{-- CONFIRMADA --}}
-
-                                @if($estado === 'Confirmada')
+                                @elseif($estadoNombre === 'Confirmada')
 
                                     <form method="POST"
-                                          action="{{ route('administrador.citas.estado', $cita) }}">
-
+                                          action="{{ route('administrador.citas.estado',$cita) }}">
                                         @csrf
                                         @method('PATCH')
 
@@ -297,17 +261,14 @@
                                                name="estado"
                                                value="Completada">
 
-                                        <button class="accion-btn accion-completar">
+                                        <button type="submit"
+                                                class="action-btn action-success">
                                             ✓ Completar
                                         </button>
-
                                     </form>
 
-
                                     <form method="POST"
-                                          action="{{ route('administrador.citas.estado', $cita) }}"
-                                          onsubmit="return confirm('¿Cancelar esta cita?')">
-
+                                          action="{{ route('administrador.citas.estado',$cita) }}">
                                         @csrf
                                         @method('PATCH')
 
@@ -315,41 +276,33 @@
                                                name="estado"
                                                value="Cancelada">
 
-                                        <button class="accion-btn accion-peligro">
+                                        <button type="submit"
+                                                class="action-btn action-danger">
                                             Cancelar
                                         </button>
-
                                     </form>
 
                                 @endif
 
-
-                                {{-- VER --}}
-
-                                <a href="{{ route('administrador.citas.show', $cita) }}"
-                                   class="accion-btn">
+                                <a href="{{ route('administrador.citas.show',$cita) }}"
+                                   class="action-btn">
                                     Ver
                                 </a>
 
-
-                                {{-- EDITAR --}}
-
-                                <a href="{{ route('administrador.citas.edit', $cita) }}"
-                                   class="accion-btn">
+                                <a href="{{ route('administrador.citas.edit',$cita) }}"
+                                   class="action-btn">
                                     Editar
                                 </a>
 
-
-                                {{-- ELIMINAR --}}
-
                                 <form method="POST"
-                                      action="{{ route('administrador.citas.destroy', $cita) }}"
-                                      onsubmit="return confirm('¿Eliminar definitivamente esta cita?')">
+                                      action="{{ route('administrador.citas.destroy',$cita) }}"
+                                      class="delete-cita-form">
 
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="accion-btn accion-peligro">
+                                    <button type="submit"
+                                            class="action-btn action-danger">
                                         Eliminar
                                     </button>
 
@@ -363,14 +316,25 @@
 
                 @empty
 
-                    <tr>
+                    <tr class="citas-empty-row">
 
-                        <td colspan="5"
-                            class="empty-citas">
+                        <td colspan="5">
 
-                            <span>◷</span>
+                            <div class="citas-empty">
 
-                            No se encontraron citas.
+                                <div>
+
+                                    <div class="citas-empty-icon">◷</div>
+
+                                    <h5>No hay citas registradas</h5>
+
+                                    <p>
+                                        Las reservaciones aparecerán aquí cuando sean registradas.
+                                    </p>
+
+                                </div>
+
+                            </div>
 
                         </td>
 
@@ -384,17 +348,32 @@
 
         </div>
 
-
         @if($citas->hasPages())
-
-            <div class="pagination-wrapper">
-
+            <div class="citas-pagination">
                 {{ $citas->links() }}
-
             </div>
-
         @endif
 
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            document.querySelectorAll('.delete-cita-form').forEach(form => {
+
+                form.addEventListener('submit', event => {
+
+                    if (!confirm('¿Estás seguro de eliminar esta cita?')) {
+                        event.preventDefault();
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+@endpush

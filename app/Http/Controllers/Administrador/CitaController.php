@@ -21,8 +21,7 @@ class CitaController extends Controller
 
             $query->where(function ($q) use ($buscar) {
                 $q->where('nombre_cliente', 'like', "%{$buscar}%")
-                    ->orWhere('telefono', 'like', "%{$buscar}%")
-                    ->orWhere('correo', 'like', "%{$buscar}%");
+                    ->orWhere('telefono', 'like', "%{$buscar}%");
             });
         }
 

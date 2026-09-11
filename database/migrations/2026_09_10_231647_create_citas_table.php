@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->string('nombre_cliente', 120);
             $table->string('telefono', 20);
-            $table->string('correo', 150)->nullable();
             $table->date('fecha');
             $table->time('hora');
 

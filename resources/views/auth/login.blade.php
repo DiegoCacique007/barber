@@ -11,7 +11,11 @@
 
     <title>Acceso administrativo | Barber</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js',
+        'resources/js/login.js'
+    ])
 
     <style>
         body {
@@ -303,7 +307,9 @@
 
 <div class="login-page">
 
-    <div class="login-wrapper">
+    <div class="login-wrapper"
+         id="loginWrapper"
+         data-has-error="{{ $errors->any() ? '1' : '0' }}">
 
         <section class="login-brand">
 
@@ -342,17 +348,22 @@
                 </p>
 
                 @if ($errors->any())
+
                     <div class="alert alert-barber mb-4">
                         {{ $errors->first() }}
                     </div>
+
                 @endif
 
+
                 <form method="POST"
-                      action="{{ route('login.submit') }}">
+                      action="{{ route('login.submit') }}"
+                      id="loginForm">
 
                     @csrf
 
-                    <div class="mb-4">
+
+                    <div class="mb-4 login-field">
 
                         <label for="email"
                                class="form-label">
@@ -373,7 +384,8 @@
 
                     </div>
 
-                    <div class="mb-3">
+
+                    <div class="mb-3 login-field">
 
                         <label for="password"
                                class="form-label">
@@ -392,7 +404,8 @@
 
                     </div>
 
-                    <div class="form-check mb-4">
+
+                    <div class="form-check mb-4 login-remember">
 
                         <input
                             class="form-check-input"
@@ -404,10 +417,13 @@
                         <label
                             class="form-check-label"
                             for="remember">
+
                             Mantener sesión iniciada
+
                         </label>
 
                     </div>
+
 
                     <button
                         type="submit"
@@ -419,9 +435,12 @@
 
                 </form>
 
+
                 <a href="{{ route('inicio') }}"
                    class="back-home">
+
                     ← Volver al sitio
+
                 </a>
 
             </div>

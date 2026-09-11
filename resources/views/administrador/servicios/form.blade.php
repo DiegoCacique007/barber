@@ -1,138 +1,193 @@
-<div class="row g-4">
+@php
+    $editando = isset($servicio);
+@endphp
 
-    <div class="col-12 col-lg-7">
+<div class="servicio-form-grid">
 
-        <div class="mb-4">
-            <label for="nombre" class="form-label text-light">
+    <div class="servicio-fields">
+
+        <div class="form-group-custom">
+
+            <label for="nombre">
                 Nombre del servicio
             </label>
 
             <input
                 type="text"
-                name="nombre"
                 id="nombre"
-                class="form-control bg-dark text-light border-secondary @error('nombre') is-invalid @enderror"
+                name="nombre"
+                class="form-control @error('nombre') is-invalid @enderror"
                 value="{{ old('nombre', $servicio->nombre ?? '') }}"
-                maxlength="100"
+                placeholder="Ej. Low Fade"
                 required
             >
 
             @error('nombre')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
+            <div class="form-error">{{ $message }}</div>
             @enderror
+
         </div>
 
-        <div class="mb-4">
-            <label for="descripcion" class="form-label text-light">
+
+        <div class="form-group-custom">
+
+            <label for="descripcion">
                 Descripción
             </label>
 
             <textarea
-                name="descripcion"
                 id="descripcion"
-                rows="5"
-                maxlength="1000"
-                class="form-control bg-dark text-light border-secondary @error('descripcion') is-invalid @enderror"
+                name="descripcion"
+                class="form-control servicio-textarea @error('descripcion') is-invalid @enderror"
+                placeholder="Describe brevemente el servicio..."
             >{{ old('descripcion', $servicio->descripcion ?? '') }}</textarea>
 
             @error('descripcion')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
+            <div class="form-error">{{ $message }}</div>
             @enderror
+
         </div>
 
-        <div class="mb-4">
-            <label for="precio" class="form-label text-light">
+
+        <div class="form-group-custom">
+
+            <label for="precio">
                 Precio
             </label>
 
-            <div class="input-group">
-                <span class="input-group-text bg-dark text-secondary border-secondary">
-                    $
-                </span>
+            <div class="precio-input">
+
+                <span>$</span>
 
                 <input
                     type="number"
-                    name="precio"
                     id="precio"
-                    step="0.01"
-                    min="0"
-                    class="form-control bg-dark text-light border-secondary @error('precio') is-invalid @enderror"
+                    name="precio"
+                    class="form-control @error('precio') is-invalid @enderror"
                     value="{{ old('precio', $servicio->precio ?? '') }}"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
                     required
                 >
+
             </div>
 
             @error('precio')
-            <div class="text-danger small mt-1">
-                {{ $message }}
-            </div>
+            <div class="form-error">{{ $message }}</div>
             @enderror
+
         </div>
 
-        <div class="form-check form-switch mb-3">
-            <input
-                class="form-check-input"
-                type="checkbox"
-                name="activo"
-                value="1"
-                id="activo"
-                {{ old('activo', $servicio->activo ?? true) ? 'checked' : '' }}
-            >
 
-            <label class="form-check-label text-light" for="activo">
-                Servicio activo
-            </label>
+        <div class="servicio-status">
+
+            <div>
+
+                <strong>
+                    Servicio activo
+                </strong>
+
+                <span>
+                    Los servicios inactivos no se mostrarán en la landing page.
+                </span>
+
+            </div>
+
+            <div class="form-check form-switch">
+
+                <input type="hidden"
+                       name="activo"
+                       value="0">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="activo"
+                    name="activo"
+                    value="1"
+                    {{ old('activo', $servicio->activo ?? true) ? 'checked' : '' }}
+                >
+
+            </div>
+
         </div>
-
-        <p class="text-secondary small">
-            Los servicios inactivos no se mostrarán en la landing page.
-        </p>
 
     </div>
 
-    <div class="col-12 col-lg-5">
 
-        <label for="imagen" class="form-label text-light">
+    <div class="servicio-image-column">
+
+        <label class="image-label">
             Fotografía del corte
         </label>
 
-        <div class="p-4 border border-secondary rounded-4 bg-dark">
 
-            @isset($servicio)
-                @if($servicio->imagen)
-                    <img
-                        src="{{ asset('storage/' . $servicio->imagen) }}"
-                        alt="{{ $servicio->nombre }}"
-                        class="img-fluid rounded-3 mb-3"
-                        style="width:100%; max-height:280px; object-fit:cover;"
-                    >
-                @endif
-            @endisset
+        <div class="image-box">
+
+            @if($editando && $servicio->imagen)
+
+                <div class="image-preview" id="imagePreview">
+
+                    <img src="{{ asset('storage/' . $servicio->imagen) }}"
+                         id="previewImage"
+                         alt="{{ $servicio->nombre }}">
+
+                </div>
+
+            @else
+
+                <div class="image-preview empty"
+                     id="imagePreview">
+
+                    <span id="emptyPreview">
+                        ✂
+                    </span>
+
+                    <img id="previewImage"
+                         alt="Vista previa"
+                         style="display:none">
+
+                </div>
+
+            @endif
+
 
             <input
                 type="file"
-                name="imagen"
                 id="imagen"
+                name="imagen"
+                class="form-control image-file @error('imagen') is-invalid @enderror"
                 accept=".jpg,.jpeg,.png,.webp"
-                class="form-control bg-dark text-light border-secondary @error('imagen') is-invalid @enderror"
             >
 
-            @error('imagen')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-
-            <div class="form-text text-secondary mt-2">
+            <span class="image-help">
                 JPG, JPEG, PNG o WEBP. Máximo 4 MB.
-            </div>
+            </span>
+
+            @error('imagen')
+            <div class="form-error">{{ $message }}</div>
+            @enderror
 
         </div>
 
     </div>
+
+</div>
+
+
+<div class="servicio-form-actions">
+
+    <a href="{{ route('administrador.servicios.index') }}"
+       class="btn-form-secondary">
+        Cancelar
+    </a>
+
+    <button type="submit"
+            class="btn-form-primary">
+
+        {{ $editando ? 'Guardar cambios' : 'Guardar servicio' }}
+
+    </button>
 
 </div>
