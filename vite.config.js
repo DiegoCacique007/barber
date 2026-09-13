@@ -11,8 +11,11 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/landing.css',
+
                 'resources/js/app.js',
                 'resources/js/landing.js',
+                'resources/js/login.js',
+                'resources/js/admin-push.js',
             ],
 
             refresh: true,

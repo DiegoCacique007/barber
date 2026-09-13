@@ -5,6 +5,8 @@ use App\Http\Controllers\Administrador\{
     ConfiguracionBarberiaController,
     DashboardController,
     HorarioController,
+    NotificacionController,
+    PushSubscriptionController,
     RedSocialController,
     ServicioController
 };
@@ -18,78 +20,177 @@ use App\Http\Controllers\Publico\{
 
 use Illuminate\Support\Facades\Route;
 
-/* =========================
+
+/* =========================================================
    RUTAS PÚBLICAS
-========================= */
+========================================================= */
 
-Route::get('/', [LandingController::class, 'index'])
-    ->name('inicio');
-
-Route::post('/agendar-cita', [CitaPublicaController::class, 'store'])
-    ->name('citas.publica.store');
-
-Route::get('/horarios-disponibles', [CitaPublicaController::class, 'horariosDisponibles'])
-    ->name('citas.horarios');
+Route::get(
+    '/',
+    [LandingController::class, 'index']
+)->name('inicio');
 
 
-/* =========================
+Route::post(
+    '/agendar-cita',
+    [CitaPublicaController::class, 'store']
+)->name('citas.publica.store');
+
+
+Route::get(
+    '/horarios-disponibles',
+    [CitaPublicaController::class, 'horariosDisponibles']
+)->name('citas.horarios');
+
+
+/* =========================================================
    AUTENTICACIÓN
-========================= */
+========================================================= */
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')
+    ->group(function () {
 
-    Route::get('/login', [LoginController::class, 'showLoginForm'])
-        ->name('login');
+        Route::get(
+            '/login',
+            [LoginController::class, 'showLoginForm']
+        )->name('login');
 
-    Route::post('/login', [LoginController::class, 'login'])
-        ->name('login.submit');
-});
 
-Route::post('/logout', [LoginController::class, 'logout'])
+        Route::post(
+            '/login',
+            [LoginController::class, 'login']
+        )->name('login.submit');
+
+    });
+
+
+Route::post(
+    '/logout',
+    [LoginController::class, 'logout']
+)
     ->middleware('auth')
     ->name('logout');
 
 
-/* =========================
+/* =========================================================
    ADMINISTRADOR
-========================= */
+========================================================= */
 
 Route::middleware('auth')
     ->prefix('admin')
     ->name('administrador.')
     ->group(function () {
 
-        /* DASHBOARD */
-        Route::get('/', [DashboardController::class, 'index'])
-            ->name('dashboard');
+
+        /* =====================================================
+           DASHBOARD
+        ====================================================== */
+
+        Route::get(
+            '/',
+            [DashboardController::class, 'index']
+        )->name('dashboard');
 
 
-        /* SERVICIOS */
-        Route::resource('servicios', ServicioController::class);
+        /* =====================================================
+           PUSH NOTIFICATIONS
+        ====================================================== */
+
+        Route::post(
+            'push/subscribe',
+            [PushSubscriptionController::class, 'store']
+        )->name('push.subscribe');
 
 
-        /* CITAS */
-        Route::patch('citas/{cita}/estado', [CitaController::class, 'cambiarEstado'])
-            ->name('citas.estado');
-
-        Route::resource('citas', CitaController::class);
-
-
-        /* HORARIOS */
-        Route::resource('horarios', HorarioController::class)
-            ->except(['show']);
+        Route::delete(
+            'push/unsubscribe',
+            [PushSubscriptionController::class, 'destroy']
+        )->name('push.unsubscribe');
 
 
-        /* REDES SOCIALES */
-        Route::resource('redes', RedSocialController::class)
-            ->parameters(['redes' => 'redSocial'])
-            ->except(['show']);
+        /* =====================================================
+           NOTIFICACIONES INTERNAS
+        ====================================================== */
+
+        Route::patch(
+            'notificaciones/marcar-todas',
+            [NotificacionController::class, 'marcarTodas']
+        )->name('notificaciones.marcar-todas');
 
 
-        /* CONFIGURACIÓN */
-        Route::get('configuracion', [ConfiguracionBarberiaController::class, 'edit'])
-            ->name('configuracion.edit');
+        Route::get(
+            'notificaciones/{notificacion}',
+            [NotificacionController::class, 'ver']
+        )->name('notificaciones.ver');
 
-        Route::put('configuracion', [ConfiguracionBarberiaController::class, 'update'])
-            ->name('configuracion.update');
+
+        /* =====================================================
+           SERVICIOS
+        ====================================================== */
+
+        Route::resource(
+            'servicios',
+            ServicioController::class
+        );
+
+
+        /* =====================================================
+           CITAS
+        ====================================================== */
+
+        Route::patch(
+            'citas/{cita}/estado',
+            [CitaController::class, 'cambiarEstado']
+        )->name('citas.estado');
+
+
+        Route::resource(
+            'citas',
+            CitaController::class
+        );
+
+
+        /* =====================================================
+           HORARIOS
+        ====================================================== */
+
+        Route::resource(
+            'horarios',
+            HorarioController::class
+        )->except([
+            'show'
+        ]);
+
+
+        /* =====================================================
+           REDES SOCIALES
+        ====================================================== */
+
+        Route::resource(
+            'redes',
+            RedSocialController::class
+        )
+            ->parameters([
+                'redes' => 'redSocial'
+            ])
+            ->except([
+                'show'
+            ]);
+
+
+        /* =====================================================
+           CONFIGURACIÓN
+        ====================================================== */
+
+        Route::get(
+            'configuracion',
+            [ConfiguracionBarberiaController::class, 'edit']
+        )->name('configuracion.edit');
+
+
+        Route::put(
+            'configuracion',
+            [ConfiguracionBarberiaController::class, 'update']
+        )->name('configuracion.update');
+
     });
